@@ -54,7 +54,9 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { predictionAPI } from '../services/api'
+import { useAuthStore } from '../stores/auth'
 
+const authStore = useAuthStore()
 const history = ref([])
 const loading = ref(true)
 const error = ref(null)

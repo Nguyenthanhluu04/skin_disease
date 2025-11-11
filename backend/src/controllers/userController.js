@@ -1,5 +1,6 @@
 import { body, validationResult } from 'express-validator'
 import jwt from 'jsonwebtoken'
+import { Op } from 'sequelize'
 import User from '../models/User.js'
 
 // Register validation
