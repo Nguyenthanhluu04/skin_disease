@@ -1,209 +1,421 @@
-# Hệ Thống Phân Tích Bệnh Ngoài Da
+# Hệ Thống Phát Hiện Bệnh Ngoài Da Sử Dụng AI - Thành Lưu
 
-Dự án sử dụng AI (Vision Transformer) để phân tích và phân loại bệnh da từ hình ảnh người dùng tải lên.
+Ứng dụng web phân tích và phát hiện bệnh ngoài da sử dụng Deep Learning với mô hình Vision Transformer (ViT).
 
-## 🎯 Tính Năng
+## Tổng Quan
 
-- ✅ Upload và phân tích ảnh bệnh da
-- ✅ Phát hiện 7 loại bệnh da khác nhau
-- ✅ Hiển thị độ tin cậy của kết quả
-- ✅ Lưu lịch sử phân tích
-- ✅ Giao diện thân thiện, responsive
-- ✅ API RESTful đầy đủ
+Dự án này cung cấp một hệ thống hoàn chỉnh để phát hiện và phân loại các bệnh ngoài da thông qua hình ảnh, sử dụng công nghệ AI tiên tiến.
 
-## 🏗️ Kiến Trúc Hệ Thống
+### Tính Năng Chính
 
-```
-┌─────────────┐      ┌─────────────┐      ┌─────────────┐
-│  Frontend   │ ───► │   Backend   │ ───► │   ML API    │
-│  (Vue.js)   │      │ (Express.js)│      │  (FastAPI)  │
-└─────────────┘      └─────────────┘      └─────────────┘
-                            │
-                            ▼
-                     ┌─────────────┐
-                     │   MySQL DB  │
-                     └─────────────┘
-```
+**Phát hiện bệnh ngoài da** từ hình ảnh tải lên  
+ **Độ chính xác cao** với mô hình Vision Transformer  
+ **Xác thực người dùng** với JWT  
+ **Lịch sử dự đoán** cho mỗi người dùng  
+ **Giao diện thân thiện** với Vue.js và Tailwind CSS  
+**API Documentation** tự động với FastAPI
 
-## 📦 Tech Stack
+### Tech Stack
 
-### Frontend
+- **Frontend**: Vue 3, Vue Router, Pinia, Vite, Tailwind CSS
+- **Backend**: Node.js, Express.js, Sequelize ORM, JWT
+- **ML API**: Python, FastAPI, PyTorch, Hugging Face Transformers
+- **Database**: MySQL
+- **AI Model**: Vision Transformer (ViT)
 
-- **Vue.js 3** (Composition API)
-- **Vite** - Build tool
-- **Vue Router** - Routing
-- **Pinia** - State management
-- **Axios** - HTTP client
-- **Tailwind CSS** - Styling
-- **VeeValidate** - Form validation
+## Yêu Cầu Hệ Thống
 
-### Backend
+### Phần Mềm Cần Thiết
 
-- **Express.js** - Web framework
-- **Sequelize** - ORM
-- **MySQL** - Database
-- **Multer** - File upload
-- **JWT** - Authentication
-- **Axios** - HTTP client
-- **Morgan** - Logging
+- **Node.js** >= 16.x
+- **Python** >= 3.8
+- **MySQL** >= 8.0
+- **npm** hoặc **yarn**
+- **Git**
 
-### ML API
+### Kiểm Tra Phiên Bản
 
-- **FastAPI** - API framework
-- **Transformers** - Hugging Face library
-- **PyTorch** - Deep learning framework
-- **Pillow** - Image processing
-- **Uvicorn** - ASGI server
-
-### Model
-
-- **Vision Transformer (ViT)** - Google's ViT fine-tuned
-- **Dataset**: HAM10000 (10,000+ ảnh)
-- **Classes**: 7 loại bệnh da
-
-## 🚀 Cài Đặt và Chạy
-
-### Yêu Cầu Hệ Thống
-
-- Node.js 18+
-- Python 3.9+
-- MySQL 8.0+
-- 4GB RAM (khuyến nghị 8GB)
-
-### 1. Clone Repository
-
-```bash
-cd d:\Predict_Skin_Diseases
+```powershell
+node --version
+python --version
+mysql --version
 ```
 
-### 2. Setup Database
+## Hướng Dẫn Cài Đặt
+
+### 1️ Clone Dự Án
+
+```powershell
+git clone https://github.com/Nguyenthanhluu04/skin_disease.git
+cd skin_disease
+```
+
+### 2️ Cài Đặt Database
+
+#### Tạo Database MySQL
 
 ```sql
-CREATE DATABASE skin_disease_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE skin_disease_db;
 ```
 
-### 3. Setup Backend (Express.js)
+#### Cấu Hình Database
 
-```bash
+Tạo file `.env` trong thư mục `backend/`:
+
+```env
+PORT=5000
+NODE_ENV=development
+
+# Database Configuration
+DB_HOST=localhost
+DB_PORT=3306
+DB_NAME=skin_disease_db
+DB_USER=root
+DB_PASSWORD=your_mysql_password
+
+# JWT Secret
+JWT_SECRET=your_secret_key_here
+
+# Python API URL
+PYTHON_API_URL=http://localhost:8000
+```
+
+### 3️ Cài Đặt Frontend
+
+```powershell
+cd frontend
+npm install
+```
+
+### 4️ Cài Đặt Backend
+
+```powershell
 cd backend
 npm install
 ```
 
-Cấu hình file `.env`:
+### 5️ Cài Đặt ML API
+
+#### Tạo Virtual Environment
+
+```powershell
+cd ml-api
+python -m venv venv
+```
+
+#### Kích Hoạt Virtual Environment
+
+```powershell
+# Windows
+venv\Scripts\activate
+```
+
+#### Cài Đặt Dependencies
+
+```powershell
+pip install -r requirements.txt
+```
+
+#### Cấu Hình ML API (Tùy Chọn)
+
+Tạo file `.env` trong thư mục `ml-api/`:
+
+```env
+API_HOST=0.0.0.0
+API_PORT=8000
+LOG_LEVEL=INFO
+MODEL_NAME=Anwarkh1/Skin_Cancer-Image_Classification
+```
+
+### 6️ Tải Model AI (Tự Động)
+
+Model sẽ tự động được tải về từ Hugging Face khi chạy ML API lần đầu tiên.
+
+## ▶️ Chạy Dự Án
+
+### Cách 1: Chạy Tất Cả Cùng Lúc (Khuyến Nghị)
+
+Mở 3 terminal riêng biệt:
+
+#### Terminal 1 - Backend
+
+```powershell
+cd backend
+npm run dev
+```
+
+#### Terminal 2 - ML API
+
+```powershell
+cd ml-api
+venv\Scripts\activate
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+#### Terminal 3 - Frontend
+
+```powershell
+cd frontend
+npm run dev
+```
+
+### Cách 2: Sử Dụng NPM Scripts (Từng Service)
+
+```powershell
+# Frontend
+npm run dev:frontend
+
+# Backend
+npm run dev:backend
+
+# ML API
+npm run dev:ml
+```
+
+## Truy Cập Ứng Dụng
+
+Sau khi chạy tất cả services:
+
+- **Frontend**: http://localhost:3000
+- **Backend API**: http://localhost:5000
+- **ML API**: http://localhost:8000
+- **ML API Docs**: http://localhost:8000/docs
+
+## Cấu Trúc Dự Án
+
+```
+Predict_Skin_Diseases/
+├── frontend/               # Vue.js Application
+│   ├── src/
+│   │   ├── components/    # Reusable components
+│   │   ├── views/         # Page components
+│   │   ├── router/        # Route configuration
+│   │   ├── stores/        # Pinia stores
+│   │   └── services/      # API services
+│   └── package.json
+│
+├── backend/               # Express.js API
+│   ├── src/
+│   │   ├── config/       # Configuration files
+│   │   ├── controllers/  # Request handlers
+│   │   ├── middleware/   # Custom middleware
+│   │   ├── models/       # Sequelize models
+│   │   ├── routes/       # API routes
+│   │   └── services/     # Business logic
+│   ├── uploads/          # Uploaded images
+│   └── server.js
+│
+├── ml-api/               # FastAPI ML Service
+│   ├── app/
+│   │   ├── main.py      # FastAPI application
+│   │   ├── model.py     # ML model wrapper
+│   │   └── utils.py     # Utility functions
+│   ├── models/          # Downloaded AI models
+│   └── requirements.txt
+│
+├── package.json          # Root package
+└── README.md            # This file
+```
+
+## API Endpoints
+
+### Backend API (Port 5000)
+
+#### Authentication
+
+- `POST /api/users/register` - Đăng ký tài khoản
+- `POST /api/users/login` - Đăng nhập
+- `GET /api/users/profile` - Thông tin người dùng (auth required)
+
+#### Predictions
+
+- `POST /api/predictions/predict` - Dự đoán bệnh (auth required)
+- `GET /api/predictions/history` - Lịch sử dự đoán (auth required)
+- `GET /api/predictions/:id` - Chi tiết dự đoán (auth required)
+
+### ML API (Port 8000)
+
+- `GET /` - API information
+- `GET /health` - Health check
+- `POST /predict` - Predict skin disease from image
+- `GET /classes` - Get all disease classes
+- `GET /docs` - Interactive API documentation
+
+## Testing
+
+### Test Backend API
+
+```powershell
+# Health check
+curl http://localhost:5000/health
+```
+
+### Test ML API
+
+```powershell
+# Health check
+curl http://localhost:8000/health
+
+# Hoặc truy cập Swagger UI
+# http://localhost:8000/docs
+```
+
+## Sử Dụng Ứng Dụng
+
+1. **Đăng ký tài khoản** tại `/register`
+2. **Đăng nhập** với email và password
+3. **Tải lên hình ảnh** da cần phân tích tại trang `/detection`
+4. **Xem kết quả** phân tích với độ tin cậy
+5. **Xem lịch sử** các lần dự đoán tại `/history`
+
+## Development
+
+### Frontend Development
+
+```powershell
+cd frontend
+npm run dev      # Development server
+npm run build    # Production build
+npm run preview  # Preview production build
+```
+
+### Backend Development
+
+```powershell
+cd backend
+npm run dev      # Development with nodemon
+npm start        # Production mode
+```
+
+### ML API Development
+
+```powershell
+cd ml-api
+venv\Scripts\activate
+uvicorn app.main:app --reload  # Auto-reload on changes
+```
+
+## Database Models
+
+### User Model
+
+- id (Primary Key)
+- email (Unique)
+- password (Hashed)
+- fullName
+- createdAt, updatedAt
+
+### Prediction Model
+
+- id (Primary Key)
+- userId (Foreign Key)
+- imagePath
+- predictedClass
+- confidence
+- allPredictions (JSON)
+- diseaseInfo (JSON)
+- createdAt
+
+## AI Model Information
+
+- **Model**: Vision Transformer (ViT)
+- **Source**: Hugging Face - `Anwarkh1/Skin_Cancer-Image_Classification`
+- **Input**: 224x224 RGB images
+- **Framework**: PyTorch + Transformers
+- **Task**: Multi-class skin disease classification
+
+## Security Features
+
+- JWT Authentication
+- Password hashing với bcrypt
+- CORS protection
+- Rate limiting
+- Input validation
+- Secure file upload
+
+## Environment Variables
+
+### Backend (.env)
 
 ```env
 PORT=5000
+NODE_ENV=development
 DB_HOST=localhost
 DB_PORT=3306
 DB_NAME=skin_disease_db
 DB_USER=root
 DB_PASSWORD=your_password
+JWT_SECRET=your_secret
 PYTHON_API_URL=http://localhost:8000
-JWT_SECRET=your_secret_key
 ```
 
-Chạy backend:
+### ML API (.env)
 
-```bash
-npm run dev
+```env
+API_HOST=0.0.0.0
+API_PORT=8000
+LOG_LEVEL=INFO
+MODEL_NAME=Anwarkh1/Skin_Cancer-Image_Classification
 ```
 
-### 4. Setup ML API (Python)
+## Troubleshooting
 
-```bash
+### Lỗi Kết Nối Database
+
+- Kiểm tra MySQL đã chạy chưa
+- Xác nhận thông tin đăng nhập trong `.env`
+- Đảm bảo database đã được tạo
+
+### Lỗi Port Đã Sử Dụng
+
+```powershell
+# Tìm process đang dùng port
+netstat -ano | findstr :3000
+netstat -ano | findstr :5000
+netstat -ano | findstr :8000
+
+# Kill process (thay PID bằng số process ID)
+taskkill /PID <PID> /F
+```
+
+### Lỗi Python Virtual Environment
+
+```powershell
+# Xóa và tạo lại venv
 cd ml-api
+Remove-Item -Recurse -Force venv
 python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-Chạy ML API:
+### Lỗi Tải Model AI
 
-```bash
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
-```
+- Kiểm tra kết nối internet
+- Model sẽ tự động tải về lần đầu chạy (có thể mất vài phút)
+- Nếu lỗi, xóa folder `ml-api/models` và chạy lại
 
-### 5. Setup Frontend (Vue.js)
+## Tài Liệu Tham Khảo
 
-```bash
-cd frontend
-npm install
-```
+- [Vue.js Documentation](https://vuejs.org/)
+- [Express.js Guide](https://expressjs.com/)
+- [FastAPI Documentation](https://fastapi.tiangolo.com/)
+- [PyTorch Documentation](https://pytorch.org/)
+- [Hugging Face Transformers](https://huggingface.co/docs/transformers/)
+- [Vision Transformer Paper](https://arxiv.org/abs/2010.11929)
 
-Chạy frontend:
+## Contributors
 
-```bash
-npm run dev
-```
+- **Nguyễn Thanh Lưu** - [GitHub](https://github.com/Nguyenthanhluu04)
 
-## 📱 Truy Cập Ứng Dụng
+## License
 
-- **Frontend**: http://localhost:3000
-- **Backend API**: http://localhost:5000
-- **ML API**: http://localhost:8000
-- **API Docs**: http://localhost:8000/docs
+MIT License - Xem file `LICENSE` để biết thêm chi tiết.
 
-## 🎨 Giao Diện
+## Acknowledgments
 
-1. **Trang chủ**: Giới thiệu hệ thống
-2. **Phân tích**: Upload và phân tích ảnh
-3. **Lịch sử**: Xem lại các phân tích trước
+- Hugging Face cho pre-trained Vision Transformer model
+- Anwarkh1 cho Skin Cancer Classification model
+- Vue.js, Express.js và FastAPI communities
 
-## 📊 API Endpoints
-
-### Backend API (Express.js)
-
-#### Predictions
-
-```
-POST   /api/predictions/predict   - Upload và phân tích ảnh
-GET    /api/predictions/history   - Lấy lịch sử phân tích
-GET    /api/predictions/:id       - Lấy chi tiết phân tích
-DELETE /api/predictions/:id       - Xóa phân tích
-```
-
-#### Users (Optional)
-
-```
-POST   /api/users/register        - Đăng ký
-POST   /api/users/login           - Đăng nhập
-```
-
-### ML API (FastAPI)
-
-```
-GET    /                          - API info
-GET    /health                    - Health check
-POST   /predict                   - Predict image
-GET    /classes                   - Get all classes
-```
-
-## 🏥 Các Loại Bệnh Được Phát Hiện
-
-1. **AKIEC** - Keratosis quang hóa / Carcinoma tại chỗ
-2. **BCC** - Ung thư tế bào đáy (Basal Cell Carcinoma)
-3. **BKL** - Tổn thương lành tính giống sừng
-4. **DF** - U xơ da (Dermatofibroma)
-5. **MEL** - Melanoma (Ung thư da ác tính)
-6. **NV** - Nốt ruồi lành tính (Melanocytic Nevi)
-7. **VASC** - Tổn thương mạch máu da
-
-## ⚠️ Lưu Ý
-
-- Hệ thống chỉ mang tính chất tham khảo
-- Không thay thế chẩn đoán y tế chuyên nghiệp
-- Upload ảnh rõ nét, đủ ánh sáng để có kết quả tốt nhất
-- Tham khảo ý kiến bác sĩ chuyên khoa để có chẩn đoán chính xác
-
-## 📝 License
-
-MIT License
-
-## 👨‍💻 Developer
-
-Dự án môn học - Phân tích bệnh ngoài da với AI
-
-## 🔗 Links
-
-- Model: https://huggingface.co/Anwarkh1/Skin_Cancer-Image_Classification
-- Dataset: HAM10000
+---

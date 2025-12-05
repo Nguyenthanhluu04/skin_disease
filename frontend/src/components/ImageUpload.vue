@@ -16,7 +16,7 @@
       />
 
       <div v-if="!previewUrl" class="upload-placeholder">
-        <div class="text-6xl mb-4">📸</div>
+        <div class="text-6xl mb-4 text-[#3b82f6]"> <FontAwesomeIcon :icon="['fas', 'camera']" /></div>
         <p class="text-xl font-semibold text-gray-700 mb-2">
           Kéo thả ảnh vào đây hoặc click để chọn
         </p>

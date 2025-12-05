@@ -28,8 +28,8 @@
       >
         <div class="card-header">
           <span class="date">{{ formatDate(item.created_at) }}</span>
-          <button @click="deleteItem(item.id)" class="delete-button">
-            🗑️
+          <button @click="deleteItem(item.id)" class="delete-button text-gray-500 hover:text-red-600">
+            <FontAwesomeIcon :icon="['fas', 'trash-can']" />
           </button>
         </div>
 
@@ -62,13 +62,13 @@ const loading = ref(true)
 const error = ref(null)
 
 const diseaseLabels = {
-  'akiec': 'Keratosis quang hóa',
+  'akiec': 'Sừng hóa quang tuyến',
   'bcc': 'Ung thư tế bào đáy',
-  'bkl': 'Tổn thương lành tính',
+  'bkl': 'Sừng hóa lành tính (Sẹo già)',
   'df': 'U xơ da',
-  'mel': 'Melanoma',
+  'mel': 'U hắc tố ác tính (Melanoma)',
   'nv': 'Nốt ruồi lành tính',
-  'vasc': 'Tổn thương mạch máu'
+  'vasc': 'Tổn thương mạch máu da'
 }
 
 const loadHistory = async () => {

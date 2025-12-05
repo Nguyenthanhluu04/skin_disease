@@ -2,6 +2,7 @@ import { upload } from '../middleware/upload.js'
 import { optionalAuth } from '../middleware/auth.js'
 import { predictImage } from '../services/pythonApiService.js'
 import Prediction from '../models/Prediction.js'
+import { getDiseaseInfo } from '../config/diseaseInfo.js'
 import fs from 'fs'
 import path from 'path'
 
@@ -20,6 +21,9 @@ export const predict = [
       // Get prediction from Python API
       const predictionResult = await predictImage(req.file.path)
 
+      // Get disease information
+      const diseaseInfo = getDiseaseInfo(predictionResult.predicted_class)
+
       // Save to database
       const prediction = await Prediction.create({
         image_path: `/uploads/${req.file.filename}`,
@@ -35,6 +39,9 @@ export const predict = [
         data: {
           id: prediction.id,
           predicted_class: prediction.predicted_class,
+          predicted_class_vi: diseaseInfo.nameVi,
+          predicted_class_en: diseaseInfo.nameEn,
+          description: diseaseInfo.description,
           confidence: prediction.confidence,
           all_predictions: prediction.all_predictions,
           image_path: prediction.image_path,
